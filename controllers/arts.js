@@ -85,7 +85,12 @@ router.put('/:id', (req,res) => {
 router.post('/', (req,res) => {
     Art.create(req.body, (err, createdArt) => {
         if(err){
-            console.log(err, ': ERROR AT POSTT ROUTE')
+            console.log(err, ': ERROR AT POST ROUTE')
+            //res.send(err._message)
+            res.render('new.ejs', {
+                tabTitle: 'New',
+                err: err._message
+            })
         } else {
             res.redirect(`/arts`)
         }

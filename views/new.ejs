@@ -1,8 +1,11 @@
 <html>
     <%- include('./partials/head.ejs') %>
     <%- include('./partials/header.ejs') %>
-    <div class="container mt-5 mb-5 p-5">
+    <div class="container mt-5 mb-5 py-5">
         <h1 class="mb-5 text-center">Add a new art</h1>
+        <% if(typeof err !== 'undefined') {%>
+            <p class="text-danger my-2"><%=err%>. Please try again.</p>
+        <%}%>
         <form action="/arts" method="POST">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="title">Title</label>
