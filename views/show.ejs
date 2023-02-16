@@ -1,0 +1,18 @@
+<html>
+<%- include('./partials/head.ejs') %>
+<body>
+    <%- include('./partials/header.ejs') %>
+    <div class="card text-center m-5">
+        <img class="card-img-top" src="<%=art.img%>" alt="<%=art.title%>'s image">
+        <div class="card-body"> 
+            <p class="card-title"><%=art.title%></p>
+            <p class="card-text"><%=art.artist%>, <%=art.artistBio%></p>
+            <p class="card-text"><%=art.dateCreated%></p>
+            <p class="card-text"><%=art.description%></p>
+            <p class="card-text"><%=art.museum%></p>
+            <a href="/arts/<%=art._id%>/edit" class="btn btn-primary">EDIT</a>
+        </div>
+      </div>
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>
