@@ -1,8 +1,68 @@
 <html>
-<%- include('./partials/head.ejs') %>
-<body>
+    <%- include('./partials/head.ejs') %>
     <%- include('./partials/header.ejs') %>
-
+    <div class="container mt-5 mb-5 p-5">
+        <h1 class="mb-5 text-center">Add a new art</h1>
+        <form action="/arts" method="POST">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="title">Title</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="title" id="title" placeholder="Irises" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="img">Image</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="img" id="img" placeholder="https://..." />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="artist">Artist</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="artist" id="artist" placeholder="Vincent van Gogh" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="artistBio">Artist Biography</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="artistBio" id="artistBio" placeholder="Dutch, Zundert 1853–1890 Auvers-sur-Oise" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="dateCreated">Created Date</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="dateCreated" id="dateCreated" placeholder="1890" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="description">Description</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="description" id="description" placeholder="Oil on canvas" />               
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="category">Category</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="category" id="category" placeholder="Painting" />                
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="museum">Museum</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="museum" id="museum" placeholder="Metropolitan Museum of Art, New York, NY" />                
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="tags">Tags</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="tags" id="tags" placeholder="Still Life" />
+                </div>
+            </div>
+            <div class="mt-5 d-flex justify-content-center align-items-center">
+                <input type="submit" class="btn btn-primary btn-margin" value="Add">
+                <a class="btn btn-primary" role="button" href="/arts">Cancel</a>
+            </div>
+        </form>
+    </div>
     <%- include('./partials/footer.ejs') %>
-</body>
 </html>

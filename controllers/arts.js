@@ -33,6 +33,13 @@ router.get('/', (req,res) => {
     })
 })
 
+// NEW ROUTE
+router.get('/new', (req,res) => {
+    res.render('new.ejs', {
+        tabTitle: 'New'
+    })
+})
+
 // SHOW ROUTE
 router.get('/:id', (req,res) => {
     Art.findById(req.params.id, (err,foundArt) => {
@@ -71,6 +78,28 @@ router.put('/:id', (req,res) => {
           } else {
             res.redirect(`/arts/${updatedArt._id}`)
           }
+    })
+})
+
+// CREATE ROUTE
+router.post('/', (req,res) => {
+    Art.create(req.body, (err, createdArt) => {
+        if(err){
+            console.log(err, ': ERROR AT POSTT ROUTE')
+        } else {
+            res.redirect(`/arts`)
+        }
+    })
+})
+
+// DELETE ROUTE
+router.delete('/:id', (req,res) => {
+    Art.findByIdAndDelete(req.params.id, (err,deletedArt) => {
+        if(err){
+            console.log(err, ': ERROR AT DELETE ROUTE')
+        } else {
+            res.redirect('/arts')
+        }
     })
 })
 
