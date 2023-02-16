@@ -3,11 +3,15 @@
     <%- include('./partials/header.ejs') %>
     <div class="container mt-5 mb-5 p-5">
         <div class="card text-center m-5">
-            <img class="card-img-top" src="<%=art.img%>" alt="<%=art.title%>'s image">
+            <!-- <img class="card-img-top" src="<%=art.img%>" alt="<%=art.title%>'s image"> -->
+            <!-- Button trigger modal -->
+            <a role="button" data-toggle="modal" data-target="#modal">
+                <img class="card-img-top" src="<%=art.img%>" alt="<%=art.title%>'s image">
+            </a>
+            <!-- xxxxxxxxxxxxxxxx -->
             <div class="card-body"> 
-                <p class="card-title"><%=art.title%></p>
-                <p class="card-text"><%=art.artist%> (<%=art.artistBio%>)</p>
-                <p class="card-text"><%=art.dateCreated%></p>
+                <h5 class="card-title"><%=art.title%>, <span class="text-secondary card-text"><%=art.dateCreated%></span></h5>
+                <h6 class="card-subtitle"><%=art.artist%>, <span class="text-secondary font-italic"><%=art.artistBio%></span></h6>
                 <p class="card-text"><%=art.description%></p>
                 <p class="card-text"><%=art.museum%></p>
                 <div class="d-flex justify-content-center align-items-center">
@@ -19,5 +23,19 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="container d-flex justify-content-end">
+                    <button type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">Close</span>
+                    </button>
+                </div>
+                <img class="card-img-top" data-mdb-img="<%=art.img%>" class="w-100" src="<%=art.img%>" alt="<%=art.title%>'s image">
+            </div>
+        </div>
+    </div>
+    <!-- xxxxxxxx -->
     <%- include('./partials/footer.ejs') %>
 </html>
