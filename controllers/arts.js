@@ -34,14 +34,6 @@ router.get('/', (req,res) => {
     })
 })
 
-// NEW ROUTE
-router.get('/new', (req,res) => {
-    res.render('new.ejs', {
-        tabTitle: 'New',
-        currentUser: req.session.currentUser
-    })
-})
-
 // SHOW ROUTE
 router.get('/:id', (req,res) => {
     Art.findById(req.params.id, (err,foundArt) => {
@@ -85,22 +77,22 @@ router.put('/:id', (req,res) => {
     })
 })
 
-// CREATE ROUTE
-router.post('/', (req,res) => {
-    Art.create(req.body, (err, createdArt) => {
-        if(err){
-            console.log(err, ': ERROR AT POST ROUTE')
-            //res.send(err._message)
-            res.render('new.ejs', {
-                tabTitle: 'New',
-                err: err._message,
-                currentUser: req.session.currentUser
-            })
-        } else {
-            res.redirect(`/arts`)
-        }
-    })
-})
+// // CREATE ROUTE
+// router.post('/', (req,res) => {
+//     Art.create(req.body, (err, createdArt) => {
+//         if(err){
+//             console.log(err, ': ERROR AT POST ROUTE')
+//             //res.send(err._message)
+//             res.render('new.ejs', {
+//                 tabTitle: 'New',
+//                 err: err._message,
+//                 currentUser: req.session.currentUser
+//             })
+//         } else {
+//             res.redirect(`/arts`)
+//         }
+//     })
+// })
 
 // DELETE ROUTE
 router.delete('/:id', (req,res) => {

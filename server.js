@@ -51,13 +51,11 @@ app.use(express.json());// returns middleware that only parses JSON - may or may
 app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 
 // use session
-app.use(
-  session({
+app.use(session({
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true
-  })
-)
+}))
 
 //use router
 app.use('/arts', artsController)

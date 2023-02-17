@@ -31,9 +31,9 @@ sessions.post('/', (req, res) => {
 
 // destroy a session
 sessions.delete('/', (req, res) => {
-    req.session.destroy(() => {
-      res.redirect('/')
+    req.session.destroy(() => { 
+        res.redirect('/')
     })
-  })
+})
   
 module.exports = sessions
