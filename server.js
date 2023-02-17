@@ -54,7 +54,8 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 app.use(
   session({
     secret: process.env.SECRET,
-    saveUninitialized: false 
+    resave: true,
+    saveUninitialized: true
   })
 )
 
