@@ -1,11 +1,29 @@
 <body>
 <header>
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-white fixed-top">
-            <div class="container-fluid d-flex justify-content-start">
-                <a class="navbar-brand" href="/">Home</a>
-                <a class="navbar-brand" href="/arts">Collections</a>
-                <a class="navbar-brand" href="/arts/new">Add new art</a>
+        <nav class="navbar navbar-expand navbar-dark bg-dark text-white fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/arts">Collections</a>
+                </div>
+                <!-- immediate child elements of .navbar use flex layout (d-flex) and will default to justify-content: space-between. -->
+                <div class="navbar-nav d-flex">
+                    <% if (currentUser) { %>
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle d-flex" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome <%= currentUser.username %></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/arts/new">Add new art</a>
+                                <form class="dropdown-item" action="/sessions?_method=DELETE" method="POST">
+                                    <input type="submit" value="Log Out"/>
+                                </form>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <a class="nav-link" href="/users/new">Sign Up</a>
+                        <a class="nav-link" href="/sessions/new">Log In</a>
+                    <% } %>
+                </div>
             </div>
         </nav>
     </div>

@@ -7,7 +7,11 @@ const mongoose = require ('mongoose');
 const app = express ();
 const db = mongoose.connection;
 require('dotenv').config()
+const session = require('express-session')
+
 const artsController = require('./controllers/arts.js')
+const usersController = require('./controllers/users.js')
+const sessionsController = require('./controllers/sessions.js')
 
 //___________________
 //Port
@@ -46,8 +50,19 @@ app.use(express.json());// returns middleware that only parses JSON - may or may
 //use method override
 app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 
+// use session
+app.use(
+  session({
+    secret: process.env.SECRET,
+    saveUninitialized: false 
+  })
+)
+
 //use router
 app.use('/arts', artsController)
+app.use('/users', usersController)
+app.use('/sessions', sessionsController)
+
 //___________________
 // Routes
 //___________________
@@ -55,9 +70,10 @@ app.use('/arts', artsController)
 app.get('/' , (req, res) => {
   //res.send('Hello World!');
   res.render('home.ejs', {
-    tabTitle: 'The Art Journey'
+    tabTitle: 'The Art Journey',
+    currentUser: req.session.currentUser
   })
-});
+})
 
 //___________________
 //Listener

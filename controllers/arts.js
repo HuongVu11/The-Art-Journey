@@ -27,7 +27,8 @@ router.get('/', (req,res) => {
             // res.send(arts)
             res.render('arts.ejs', {
                 tabTitle: 'Collection',
-                arts: arts
+                arts: arts,
+                currentUser: req.session.currentUser
             })
         }
     })
@@ -36,7 +37,8 @@ router.get('/', (req,res) => {
 // NEW ROUTE
 router.get('/new', (req,res) => {
     res.render('new.ejs', {
-        tabTitle: 'New'
+        tabTitle: 'New',
+        currentUser: req.session.currentUser
     })
 })
 
@@ -49,7 +51,8 @@ router.get('/:id', (req,res) => {
             //res.send(foundArt)
             res.render('show.ejs', {
                 tabTitle: foundArt.artist,
-                art: foundArt
+                art: foundArt,
+                currentUser: req.session.currentUser
             })
         }
     })
@@ -64,7 +67,8 @@ router.get('/:id/edit', (req,res) => {
             // res.send(foundArt)
             res.render('edit.ejs', {
                 tabTitle: 'Edit',
-                art: foundArt
+                art: foundArt,
+                currentUser: req.session.currentUser
             })
         }
     })
@@ -89,7 +93,8 @@ router.post('/', (req,res) => {
             //res.send(err._message)
             res.render('new.ejs', {
                 tabTitle: 'New',
-                err: err._message
+                err: err._message,
+                currentUser: req.session.currentUser
             })
         } else {
             res.redirect(`/arts`)
