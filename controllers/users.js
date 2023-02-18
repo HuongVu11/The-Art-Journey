@@ -12,21 +12,52 @@ users.get('/signup', (req, res) => {
   })
 })
 
-// INDEX ROUTE - USER'S COLLECTIONS
-users.get('/arts', (req,res) => {
-  User.findById(req.session.currentUser, (err, user) => {
-    if(err) {
-      console.log(err, ': ERROR IN INDEX ROUTE QUERY')
+users.post('/', (req, res) => {
+  //overwrite the user password with the hashed password, then pass that in to our database
+  req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+  User.create(req.body, (err, createdUser) => {
+    if (err) {
+      console.log(err)
     } else {
-      //res.send(user)
-      res.render('users/arts.ejs', {
-        tabTitle: user.name + 'collection',
-        arts: user.arts,
-        currentUser: req.session.currentUser
-      })
+      console.log('user is created', createdUser)
+      res.redirect('/sessions/new')
     }
   })
 })
+
+// INDEX ROUTE - USER'S COLLECTIONS
+users.get('/arts', (req,res) => {
+  const user = req.session.currentUser
+  //res.send(user)
+  res.render('users/arts.ejs', {
+    tabTitle: user.username + 'collection',
+    arts: user.arts,
+    currentUser: req.session.currentUser
+  })
+})
+
+// SHOW ROUTE
+users.get('/arts/:id', (req,res) => {
+  const user = req.session.currentUser
+  res.render('users/show.ejs', {
+    tabTitle: user.username +'collection',
+    id:req.params.id,
+    art: user.arts[req.params.id],
+    currentUser: req.session.currentUser
+  })
+})
+
+// EDIT ROUTE
+users.get('/arts/:id/edit', (req,res) => {
+  const user = req.session.currentUser
+    res.render('users/edit.ejs', {
+      tabTitle: 'Edit',
+      id: req.params.id,
+      art: user.arts[req.params.id],
+      currentUser: req.session.currentUser
+    })
+  }
+)
 
 // NEW ROUTE -ADD NEW ART
 users.get('/new', isAuthenticated, (req,res) => {
@@ -35,7 +66,6 @@ users.get('/new', isAuthenticated, (req,res) => {
     currentUser: req.session.currentUser
   })
 })
-
 
 // POST ROUTE - CREATE A NEW ART
 users.post('/arts', (req,res) => {
@@ -54,15 +84,28 @@ users.post('/arts', (req,res) => {
   })
 })
 
-users.post('/', (req, res) => {
-  //overwrite the user password with the hashed password, then pass that in to our database
-  req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-  User.create(req.body, (err, createdUser) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log('user is created', createdUser)
-      res.redirect('/sessions/new')
+// UPDATE ROUTE
+users.put('/arts/:id', (req,res) => {
+  const user = req.session.currentUser
+  user.arts[req.params.id] = req.body
+  User.findByIdAndUpdate(user._id, user, {new:true}, (err,user) =>{
+    if(err) {
+      console.log(err, ': ERROR AT UPDATE ROUTE')
+    } else{
+      res.redirect('/users/arts')
+    }
+  })
+})
+
+// DELETE ROUTE
+users.delete('/arts/:id', (req,res) => {
+  const user = req.session.currentUser
+  user.arts.splice(req.params.id,1)
+  User.findByIdAndUpdate(user._id, user, {new:true}, (err,user) =>{
+    if(err) {
+      console.log(err, ': ERROR AT DELETE ROUTE')
+    } else{
+      res.redirect('/users/arts')
     }
   })
 })

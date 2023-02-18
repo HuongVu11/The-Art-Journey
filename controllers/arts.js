@@ -50,32 +50,32 @@ router.get('/:id', (req,res) => {
     })
 })
 
-// EDIT ROUTE
-router.get('/:id/edit', (req,res) => {
-    Art.findById(req.params.id, (err,foundArt) => {
-        if (err) {
-            console.log(err, ': ERROR AT EDIT GET ROUTE')
-        } else {
-            // res.send(foundArt)
-            res.render('edit.ejs', {
-                tabTitle: 'Edit',
-                art: foundArt,
-                currentUser: req.session.currentUser
-            })
-        }
-    })
-})
+// // EDIT ROUTE
+// router.get('/:id/edit', (req,res) => {
+//     Art.findById(req.params.id, (err,foundArt) => {
+//         if (err) {
+//             console.log(err, ': ERROR AT EDIT GET ROUTE')
+//         } else {
+//             // res.send(foundArt)
+//             res.render('edit.ejs', {
+//                 tabTitle: 'Edit',
+//                 art: foundArt,
+//                 currentUser: req.session.currentUser
+//             })
+//         }
+//     })
+// })
 
-// UPDATE ROUTE
-router.put('/:id', (req,res) => {
-    Art.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err,updatedArt) => {
-        if(err){
-            console.log(err, ': ERROR AT PUT ROUTE')
-          } else {
-            res.redirect(`/arts/${updatedArt._id}`)
-          }
-    })
-})
+// // UPDATE ROUTE
+// router.put('/:id', (req,res) => {
+//     Art.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err,updatedArt) => {
+//         if(err){
+//             console.log(err, ': ERROR AT PUT ROUTE')
+//           } else {
+//             res.redirect(`/arts/${updatedArt._id}`)
+//           }
+//     })
+// })
 
 // // CREATE ROUTE
 // router.post('/', (req,res) => {
@@ -94,16 +94,21 @@ router.put('/:id', (req,res) => {
 //     })
 // })
 
-// DELETE ROUTE
-router.delete('/:id', (req,res) => {
-    Art.findByIdAndDelete(req.params.id, (err,deletedArt) => {
-        if(err){
-            console.log(err, ': ERROR AT DELETE ROUTE')
-        } else {
-            res.redirect('/arts')
-        }
-    })
-})
+// // DELETE ROUTE
+// router.delete('/:id', (req,res) => {
+//     Art.findByIdAndDelete(req.params.id, (err,deletedArt) => {
+//         if(err){
+//             console.log(err, ': ERROR AT DELETE ROUTE')
+//         } else {
+//             res.redirect('/arts')
+//         }
+//     })
+// })
 
+// POST ROUTE - ADD TO USER- in preogress
+// router.post('/add', (req,res) => {
+//     const user=req.sessionStore.currentUser
+//     console.log(req.body)
+// }) 
 
 module.exports = router

@@ -1,9 +1,9 @@
 <html>
-    <%- include('./partials/head.ejs') %>   
-    <%- include('./partials/header.ejs') %>
+    <%- include('../partials/head.ejs') %>   
+    <%- include('../partials/header.ejs') %>
     <div class="container mt-5 mb-5 py-5">
         <h1 class="text-center mb-5">Edit</h1>
-        <form action="/arts/<%=art._id%>?_method=PUT" method="POST">
+        <form action="/users/arts/<%=id%>?_method=PUT" method="POST">
             <div class="form-group row mb-2">
                 <label class="col-sm-2 col-form-label" for="title">Title</label>
                 <div class="col-sm-10">
@@ -60,9 +60,9 @@
             </div>
             <div class="mt-5 d-flex justify-content-center align-items-center">
                 <input type="submit" class="btn btn-primary btn-margin" value="Submit">
-                <a class="btn btn-primary" role="button" href="/arts">Cancel</a>
+                <a class="btn btn-primary" role="button" href="/users/arts">Cancel</a>
             </div>
         </form>
     </div>
-    <%- include('./partials/footer.ejs') %>
+    <%- include('../partials/footer.ejs') %>
 </html>
