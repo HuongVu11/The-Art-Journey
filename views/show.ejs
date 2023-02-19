@@ -14,7 +14,7 @@
                 <p class="card-text"><%=art.description%></p>
                 <p class="card-text"><%=art.museum%></p>
                 <div class="d-flex justify-content-center align-items-center">
-                    <form class="my-0" action="/arts/add" method="POST">
+                    <form class="my-0" action="/arts/<%=art._id%>/add" method="POST">
                         <input class="btn btn-warning btn-sm" type="submit" value="ADD" />
                     </form>
                 </div>

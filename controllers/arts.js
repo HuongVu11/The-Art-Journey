@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Art = require('../models/arts')
 const seed = require('../models/seed')
+const User = require('../models/users.js')
 
 // SEED DATA
 router.get('/seed', (req,res) => {
@@ -106,9 +107,35 @@ router.get('/:id', (req,res) => {
 // })
 
 // POST ROUTE - ADD TO USER- in preogress
-// router.post('/add', (req,res) => {
-//     const user=req.sessionStore.currentUser
-//     console.log(req.body)
-// }) 
+router.post('/:id/add', (req,res) => {
+    const user=req.session.currentUser
+    console.log(req.params.id)
+    Art.findById(req.params.id, (err, foundArt) =>{
+        if (err) {
+            console.log(err, ': ERROR AT POST ROUTE - ADD QUERY')
+        } else {
+            let artToAdd ={
+                title: foundArt.title,
+                img: foundArt.img,
+                artist: foundArt.artist,
+                artistBio: foundArt.artistBio,
+                dateCreated: foundArt.dateCreated,
+                description: foundArt.description,
+                category: foundArt.category,
+                museum: foundArt.museum,
+                tags: foundArt.tags
+            }
+            user.arts.push(artToAdd)
+            console.log(user)
+            User.findByIdAndUpdate(user._id, user, {new:true}, (err, updatedUser) =>{
+                if(err) {
+                    console.log(err, ': ERROR AT UPDATED USER')
+                } else {
+                    res.redirect('/users/arts')
+                }
+            })
+        }
+    })
+}) 
 
 module.exports = router

@@ -7,7 +7,7 @@
             <div class="row g-5">
                 <% for (let i=0; i<arts.length; i++) {
                     let newTitle = ''
-                    const titleBreak = arts[i].title.split(' ')
+                    const titleBreak = arts[i].title.split(` `)
                     if (titleBreak.length > 7) {
                         let shortenPhrase = titleBreak.slice(0, 7)
                         shortenPhrase.push('...')
@@ -27,7 +27,7 @@
                             <p><%=newTitle%></p>
                         </div>
                     </div>
-                <%}%>
+                <% } %>
             </div>
         <% }else {%> 
             <p>No art to show.</p>
