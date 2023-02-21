@@ -26,15 +26,6 @@ users.post('/', (req, res) => {
 })
 
 // INDEX ROUTE - USER'S COLLECTIONS
-// users.get('/arts', (req,res) => {
-//   const user = req.session.currentUser
-//   //res.send(user)
-//   res.render('users/arts.ejs', {
-//     tabTitle: 'Collection',
-//     arts: user.arts,
-//     currentUser: req.session.currentUser
-//   })
-// })
 users.get('/arts', (req,res) => {
 const user = req.session.currentUser
 User.findById(user._id, (err,user) => {
@@ -42,7 +33,7 @@ User.findById(user._id, (err,user) => {
       console.log(err, ': ERROR IN INDEX ROUTE QUERY')
   } else {
       //res.send(user.arts)
-      res.render('arts.ejs', {
+      res.render('users/arts.ejs', {
           tabTitle: 'Collection',
           arts: user.arts,
           currentUser: req.session.currentUser
@@ -53,15 +44,6 @@ User.findById(user._id, (err,user) => {
 
 
 // SHOW ROUTE
-// users.get('/arts/:id', (req,res) => {
-//   const user = req.session.currentUser
-//   res.render('users/show.ejs', {
-//     tabTitle: user.username +'collection',
-//     id:req.params.id,
-//     art: user.arts[req.params.id],
-//     currentUser: req.session.currentUser
-//   })
-// })
 users.get('/arts/:id', (req,res) => {
   const user = req.session.currentUser
   User.findById(user._id, (err,user) => {
@@ -80,16 +62,6 @@ users.get('/arts/:id', (req,res) => {
 })
 
 // EDIT ROUTE
-// users.get('/arts/:id/edit', (req,res) => {
-//   const user = req.session.currentUser
-//     res.render('users/edit.ejs', {
-//       tabTitle: 'Edit',
-//       id: req.params.id,
-//       art: user.arts[req.params.id],
-//       currentUser: req.session.currentUser
-//     })
-//   }
-// )
 users.get('/arts/:id/edit', (req,res) => {
   const user = req.session.currentUser
   User.findById(user._id, (err,user) => {
@@ -120,7 +92,7 @@ users.get('/new', (req,res) => {
 users.post('/arts', (req,res) => {
   const user = req.session.currentUser
   user.arts.push(req.body)
-  User.findByIdAndUpdate(user._id, user, (err, createdArt) => {
+  User.findByIdAndUpdate(user._id, user, (err, user) => {
     if(err){
       console.log(err, ': ERROR AT POST ROUTE')
       //res.send(err._message)
@@ -130,24 +102,17 @@ users.post('/arts', (req,res) => {
         currentUser: req.session.currentUser
       })
     } else {
+      user.save((err) => {
+        if(err) {
+          console.log(err)
+        }
+      })
       res.redirect(`/users/arts`)
     }
   })
 })
 
 // UPDATE ROUTE
-// users.put('/arts/:id', (req,res) => {
-//   const user = req.session.currentUser
-//   user.arts[req.params.id] = req.body
-//   User.findByIdAndUpdate(user._id, user, {new:true}, (err,user) =>{
-//     if(err) {
-//       console.log(err, ': ERROR AT UPDATE ROUTE')
-//     } else{
-//       res.redirect('/users/arts')
-//     }
-//   })
-// })
-
 users.put('/arts/:id', async (req,res) => {
   const user = req.session.currentUser
   User.findById(user._id, (err,user) => {
@@ -167,18 +132,6 @@ users.put('/arts/:id', async (req,res) => {
 })
 
 // DELETE ROUTE
-// users.delete('/arts/:id', (req,res) => {
-//   const user = req.session.currentUser
-//   user.arts.id(req.params.id).remove()
-//   User.findByIdAndUpdate(user._id, user, {new:true}, (err,user) =>{
-//     if(err) {
-//       console.log(err, ': ERROR AT DELETE ROUTE')
-//     } else{
-//       res.redirect('/users/arts')
-//     }
-//   })
-// })
-
 users.delete('/arts/:id', (req,res) => {
 const user = req.session.currentUser
 User.findById(user._id, (err,user) => {

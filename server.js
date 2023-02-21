@@ -64,6 +64,12 @@ app.use((req,res,next)=>{
   next()
 })
 
+app.use((err, req, res, next) =>{
+  console.error(err.stack)
+  res.status(500).send('something broke!')
+})
+
+
 //use router
 app.use('/arts', artsController)
 app.use('/users', usersController)

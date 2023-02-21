@@ -21,6 +21,8 @@ router.get('/seed', (req,res) => {
 // DROP DATA
 //Art.collection.drop()
 
+// User.collection.drop()
+
 // INDEX ROUTE
 router.get('/', checkUrl, (req,res) => {
     Art.find((err,arts) => {
