@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt')
 const express = require('express')
 const users = express.Router()
-//const User = require('../models/users.js')
-const {User, UserArt} = require('../models/users.js')
+const User = require('../models/users.js')
+//const {User, UserArt} = require('../models/users.js')
+const cloudinary = require('../utils/cloudinary')
+const upload = require('../utils/multer');
 
 // USER SIGNUP
 users.get('/signup', (req, res) => {
@@ -89,9 +91,12 @@ users.get('/new', (req,res) => {
 })
 
 // POST ROUTE - CREATE A NEW ART
-users.post('/arts', (req,res) => {
+users.post('/arts', upload.single('img'), async (req,res) => {
+  const result = await cloudinary.uploader.upload(req.file.path, {public_id:"art_journey"})
+    //console.log(result, 'RESULT');
+    req.body.img = result.secure_url
+    //res.send(req.body)
   const user = req.session.currentUser
-  user.arts.push(req.body)
   User.findByIdAndUpdate(user._id, user, (err, user) => {
     if(err){
       console.log(err, ': ERROR AT POST ROUTE')
@@ -102,6 +107,7 @@ users.post('/arts', (req,res) => {
         currentUser: req.session.currentUser
       })
     } else {
+      user.arts.push(req.body)
       user.save((err) => {
         if(err) {
           console.log(err)

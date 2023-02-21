@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Art = require('../models/arts')
 const seed = require('../models/seed')
-const {User,UserArt} = require('../models/users.js')
+//const {User,UserArt} = require('../models/users.js')
+const User = require('../models/users.js')
 const {isAuthenticated, checkUrl} = require('../utils/middleware')
 
 // SEED DATA
