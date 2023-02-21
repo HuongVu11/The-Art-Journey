@@ -21,15 +21,15 @@ const mongoose = require('mongoose')
 // module.exports = User
 
 const userArtSchema = new mongoose.Schema({
-  title: {type: String, required: true},
-  img: {type: String, default: 'https://icon-library.com/icon/no-picture-available-icon-1.html.html'},
-  artist: {type: String, default: 'N/A'},
-  artistBio: {type: String, default: 'N/A'},
-  dateCreated: {type: String, default: 'N/A'},
-  description: {type: String, default: 'N/A'},
-  category: {type: String, default: 'N/A'},
-  museum: {type: String, default: 'N/A'},
-  tags: [String]
+  title: String,
+  img: String,
+  artist: String,
+  artistBio: String,
+  dateCreated: String,
+  description: String,
+  category: String,
+  museum: String,
+  tags: [String]    
 })
 
 const Schema = mongoose.Schema

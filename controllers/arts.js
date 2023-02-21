@@ -3,7 +3,6 @@ const router = express.Router()
 const Art = require('../models/arts')
 const seed = require('../models/seed')
 const {User,UserArt} = require('../models/users.js')
-//const isAuthenticated = require('../utils/middleware')
 const {isAuthenticated, checkUrl} = require('../utils/middleware')
 
 // SEED DATA
@@ -117,17 +116,21 @@ router.post('/:id/add', isAuthenticated, (req,res) => {
         if (err) {
             console.log(err, ': ERROR AT POST ROUTE - ADD QUERY')
         } else {
-            user.arts.push(foundArt)
-            console.log(user)
-            User.findByIdAndUpdate(user._id, user, {new:true}, (err, updatedUser) =>{
-                if(err) {
-                    console.log(err, ': ERROR AT UPDATED USER')
+            User.findById(user._id, (err,foundUser) =>{
+                if(foundUser.arts.id(req.params.id)) {
+                    console.log('This art is already included in user collection')
                 } else {
-                    res.redirect('/users/arts')
+                    foundUser.arts.push(foundArt)
+                    foundUser.save((err) => {
+                        if(err) {
+                            console.log(err)
+                        }
+                    })
                 }
+                res.redirect('/users/arts')
             })
         }
     })
-}) 
+})
 
 module.exports = router
