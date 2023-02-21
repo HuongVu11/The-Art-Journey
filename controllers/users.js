@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt')
 const express = require('express')
 const users = express.Router()
 const User = require('../models/users.js')
-//const {User, UserArt} = require('../models/users.js')
 const cloudinary = require('../utils/cloudinary')
 const upload = require('../utils/multer');
 
@@ -19,7 +18,7 @@ users.post('/', (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
   User.create(req.body, (err, createdUser) => {
     if (err) {
-      console.log(err)
+      console.log(err, 'error at post route- create new user')
     } else {
       console.log('user is created', createdUser)
       res.redirect('/sessions/new')
@@ -93,11 +92,11 @@ users.get('/new', (req,res) => {
 // POST ROUTE - CREATE A NEW ART
 users.post('/arts', upload.single('img'), async (req,res) => {
   const result = await cloudinary.uploader.upload(req.file.path, {public_id:"art_journey"})
-    //console.log(result, 'RESULT');
-    req.body.img = result.secure_url
-    //res.send(req.body)
+  //console.log(result, 'RESULT');
+  req.body.img = result.secure_url
+  //res.send(req.body)
   const user = req.session.currentUser
-  User.findByIdAndUpdate(user._id, user, (err, user) => {
+  User.findByIdAndUpdate(user._id, user, async (err, user) => {
     if(err){
       console.log(err, ': ERROR AT POST ROUTE')
       //res.send(err._message)
@@ -108,7 +107,7 @@ users.post('/arts', upload.single('img'), async (req,res) => {
       })
     } else {
       user.arts.push(req.body)
-      user.save((err) => {
+      await user.save((err) => {
         if(err) {
           console.log(err)
         }
@@ -119,15 +118,22 @@ users.post('/arts', upload.single('img'), async (req,res) => {
 })
 
 // UPDATE ROUTE
-users.put('/arts/:id', async (req,res) => {
+users.put('/arts/:id', upload.single('img'), (req,res) => {
   const user = req.session.currentUser
-  User.findById(user._id, (err,user) => {
+  User.findById(user._id, async (err,user) => {
       if(err){
           console.log(err, ': ERROR AT PUT ROUTE')
       } else {
         const art = user.arts.id(req.params.id)
+        // check if there is an uploaded file
+        if(typeof req.file === 'undefined') {
+          req.body.img = art.img
+        } else {
+          const result = await cloudinary.uploader.upload(req.file.path, {public_id:"art_journey"})
+          req.body.img = result.secure_url
+        }
         art.set(req.body)
-        user.save((err) => {
+        await user.save((err) => {
           if(err) {
             console.log(err)
           }
@@ -140,12 +146,12 @@ users.put('/arts/:id', async (req,res) => {
 // DELETE ROUTE
 users.delete('/arts/:id', (req,res) => {
 const user = req.session.currentUser
-User.findById(user._id, (err,user) => {
+User.findById(user._id, async (err,user) => {
     if(err){
         console.log(err, ': ERROR AT PUT ROUTE')
     } else {
       user.arts.id(req.params.id).remove()
-      user.save((err) => {
+      await user.save((err) => {
         if(err) {
           console.log(err)
         }

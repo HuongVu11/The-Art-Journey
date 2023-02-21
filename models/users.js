@@ -22,5 +22,4 @@ const userSchema = Schema({
 const User = mongoose.model('User', userSchema)
 const UserArt = mongoose.model('UserArt', userArtSchema)
 
-//module.exports = {User, UserArt}
 module.exports = User
