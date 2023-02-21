@@ -2,7 +2,9 @@ const express = require('express')
 const router = express.Router()
 const Art = require('../models/arts')
 const seed = require('../models/seed')
-const User = require('../models/users.js')
+const {User,UserArt} = require('../models/users.js')
+//const isAuthenticated = require('../utils/middleware')
+const {isAuthenticated, checkUrl} = require('../utils/middleware')
 
 // SEED DATA
 router.get('/seed', (req,res) => {
@@ -20,7 +22,7 @@ router.get('/seed', (req,res) => {
 //Art.collection.drop()
 
 // INDEX ROUTE
-router.get('/', (req,res) => {
+router.get('/', checkUrl, (req,res) => {
     Art.find((err,arts) => {
         if(err) {
             console.log(err, ': ERROR IN INDEX ROUTE QUERY')
@@ -36,7 +38,7 @@ router.get('/', (req,res) => {
 })
 
 // SHOW ROUTE
-router.get('/:id', (req,res) => {
+router.get('/:id', checkUrl, (req,res) => {
     Art.findById(req.params.id, (err,foundArt) => {
         if (err) {
             console.log(err, ': ERROR AT SHOW ROUTE')
@@ -106,26 +108,14 @@ router.get('/:id', (req,res) => {
 //     })
 // })
 
-// POST ROUTE - ADD TO USER- in preogress
-router.post('/:id/add', (req,res) => {
-    const user=req.session.currentUser
-    console.log(req.params.id)
+// POST ROUTE - ADD TO USER
+router.post('/:id/add', isAuthenticated, (req,res) => {
+    const user = req.session.currentUser
     Art.findById(req.params.id, (err, foundArt) =>{
         if (err) {
             console.log(err, ': ERROR AT POST ROUTE - ADD QUERY')
         } else {
-            let artToAdd ={
-                title: foundArt.title,
-                img: foundArt.img,
-                artist: foundArt.artist,
-                artistBio: foundArt.artistBio,
-                dateCreated: foundArt.dateCreated,
-                description: foundArt.description,
-                category: foundArt.category,
-                museum: foundArt.museum,
-                tags: foundArt.tags
-            }
-            user.arts.push(artToAdd)
+            user.arts.push(foundArt)
             console.log(user)
             User.findByIdAndUpdate(user._id, user, {new:true}, (err, updatedUser) =>{
                 if(err) {

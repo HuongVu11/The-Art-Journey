@@ -11,13 +11,14 @@ const session = require('express-session')
 
 const artsController = require('./controllers/arts.js')
 const usersController = require('./controllers/users.js')
-const sessionsController = require('./controllers/sessions.js')
+const sessionsController = require('./controllers/sessions.js');
+const { checkUrl } = require('./utils/middleware.js');
 
 //___________________
 //Port
 //___________________
 // Allow use of Heroku's port or your own local port, depending on the environment
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 //___________________
 //Database
@@ -57,6 +58,12 @@ app.use(session({
     saveUninitialized: true
 }))
 
+app.use((req,res,next)=>{
+  res.locals.url = req.originalUrl
+  console.log(res.locals.url)
+  next()
+})
+
 //use router
 app.use('/arts', artsController)
 app.use('/users', usersController)
@@ -66,7 +73,7 @@ app.use('/sessions', sessionsController)
 // Routes
 //___________________
 //localhost:3000
-app.get('/' , (req, res) => {
+app.get('/', checkUrl , (req, res) => {
   //res.send('Hello World!');
   res.render('home.ejs', {
     tabTitle: 'The Art Journey',

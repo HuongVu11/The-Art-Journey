@@ -9,16 +9,17 @@
             </a>
             <!-- xxxxxxxxxxxxxxxx -->
             <div class="card-body"> 
-                <h5 class="card-title"><%=art.title%>, <span class="text-secondary card-text"><%=art.dateCreated%></span></h5>
-                <h6 class="card-subtitle"><%=art.artist%>, <span class="text-secondary font-italic"><%=art.artistBio%></span></h6>
+                <h5 class="card-title"><%=art.title%> <span class="text-secondary card-text"><%=art.dateCreated%></span></h5>
+                <h6 class="card-subtitle"><%=art.artist%> <span class="text-secondary font-italic"><%=art.artistBio%></span></h6>
                 <p class="card-text"><%=art.description%></p>
                 <p class="card-text"><%=art.museum%></p>
+                <!-- <p class="card-text"><%=art.tags%></p> -->
                 <p class="card-text">Tags:<% for (const tag of art.tags) {%>
                     <span> <%=tag%>,</span>
-                <% } %></p>
+                <% } %></p> 
                 <div class="d-flex justify-content-center align-items-center">
-                    <a href="/users/arts/<%=id%>/edit" class="btn btn-primary btn-sm btn-margin" role="button">EDIT</a>
-                    <form class="my-0" action="/users/arts/<%=id%>?_method=DELETE" method="POST">
+                    <a href="/users/arts/<%=art._id%>/edit" class="btn btn-primary btn-sm btn-margin" role="button">EDIT</a>
+                    <form class="my-0" action="/users/arts/<%=art._id%>?_method=DELETE" method="POST">
                         <input class="btn btn-warning btn-sm" type="submit" value="DELETE" />
                     </form>
                 </div>

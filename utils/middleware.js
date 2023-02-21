@@ -8,5 +8,19 @@ const isAuthenticated = (req, res, next) => {
     }
   }
 
-  // export to use somewhere else, then import it to where we use like fruits.js
-  module.exports = isAuthenticated
+const checkUrl = (req,res,next) =>{
+  if (req.session.currentUser) {
+    return next()
+  } else {
+    req.session.redirect = req.originalUrl
+    next()
+  }
+}
+
+  // export to use somewhere else, then import it to where we use
+//module.exports = isAuthenticated
+
+module.exports = {
+  isAuthenticated,
+  checkUrl
+}
