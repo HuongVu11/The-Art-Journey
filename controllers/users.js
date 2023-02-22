@@ -28,44 +28,41 @@ users.post('/', (req, res) => {
 
 // INDEX ROUTE - USER'S COLLECTIONS
 users.get('/arts', (req,res) => {
-const user = req.session.currentUser
-User.findById(user._id, (err,user) => {
-  if(err) {
+  User.findById(req.session.currentUser._id, (err,user) => {
+    if(err) {
       console.log(err, ': ERROR IN INDEX ROUTE QUERY')
-  } else {
+    } else {
       //res.send(user.arts)
       res.render('users/arts.ejs', {
           tabTitle: 'Collection',
           arts: user.arts,
           currentUser: req.session.currentUser
       })
-  }
-})
+    }
+  })
 })
 
 
 // SHOW ROUTE
 users.get('/arts/:id', (req,res) => {
-  const user = req.session.currentUser
-  User.findById(user._id, (err,user) => {
+  User.findById(req.session.currentUser._id, (err,user) => {
     if (err) {
-        console.log(err, ': ERROR AT SHOW ROUTE')
+      console.log(err, ': ERROR AT SHOW ROUTE')
     } else {
-        const foundArt = user.arts.id(req.params.id)
-        //res.send(foundArt)
-        res.render('users/show.ejs', {
-            tabTitle: 'Collection',
-            art: foundArt,
-            currentUser: req.session.currentUser
-        })
+      const foundArt = user.arts.id(req.params.id)
+      //res.send(foundArt)
+      res.render('users/show.ejs', {
+        tabTitle: 'Collection',
+        art: foundArt,
+        currentUser: req.session.currentUser
+      })
     }
   })
 })
 
 // EDIT ROUTE
 users.get('/arts/:id/edit', (req,res) => {
-  const user = req.session.currentUser
-  User.findById(user._id, (err,user) => {
+  User.findById(req.session.currentUser._id, (err,user) => {
     if (err) {
         console.log(err, ': ERROR AT SHOW ROUTE')
     } else {
@@ -90,13 +87,8 @@ users.get('/new', (req,res) => {
 })
 
 // POST ROUTE - CREATE A NEW ART
-users.post('/arts', upload.single('img'), async (req,res) => {
-  const result = await cloudinary.uploader.upload(req.file.path, {public_id:"art_journey"})
-  //console.log(result, 'RESULT');
-  req.body.img = result.secure_url
-  //res.send(req.body)
-  const user = req.session.currentUser
-  User.findByIdAndUpdate(user._id, user, async (err, user) => {
+users.post('/arts', upload.single('img'), (req,res) => {
+  User.findById(req.session.currentUser._id, async (err, user) => {
     if(err){
       console.log(err, ': ERROR AT POST ROUTE')
       //res.send(err._message)
@@ -106,6 +98,10 @@ users.post('/arts', upload.single('img'), async (req,res) => {
         currentUser: req.session.currentUser
       })
     } else {
+      const result = await cloudinary.uploader.upload(req.file.path, {public_id:"art_journey"})
+      //console.log(result, 'RESULT');
+      req.body.img = result.secure_url
+      //res.send(req.body)
       user.arts.push(req.body)
       await user.save((err) => {
         if(err) {
@@ -119,8 +115,7 @@ users.post('/arts', upload.single('img'), async (req,res) => {
 
 // UPDATE ROUTE
 users.put('/arts/:id', upload.single('img'), (req,res) => {
-  const user = req.session.currentUser
-  User.findById(user._id, async (err,user) => {
+  User.findById(req.session.currentUser._id, async (err,user) => {
       if(err){
           console.log(err, ': ERROR AT PUT ROUTE')
       } else {
@@ -145,8 +140,7 @@ users.put('/arts/:id', upload.single('img'), (req,res) => {
 
 // DELETE ROUTE
 users.delete('/arts/:id', (req,res) => {
-const user = req.session.currentUser
-User.findById(user._id, async (err,user) => {
+  User.findById(req.session.currentUser._id, async (err,user) => {
     if(err){
         console.log(err, ': ERROR AT PUT ROUTE')
     } else {
@@ -158,7 +152,7 @@ User.findById(user._id, async (err,user) => {
       })
       res.redirect('/users/arts')
     }
-})
+  })
 })
 
 module.exports = users
