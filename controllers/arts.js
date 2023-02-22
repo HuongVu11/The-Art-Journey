@@ -19,7 +19,7 @@ router.get('/seed', (req,res) => {
 
 // DROP DATA
 //Art.collection.drop()
-// User.collection.drop()
+//User.collection.drop()
 
 // INDEX ROUTE
 router.get('/', checkUrl, (req,res) => {
@@ -109,25 +109,15 @@ router.get('/:id', checkUrl, (req,res) => {
 // })
 
 // POST ROUTE - ADD TO USER
-router.post('/:id/add', isAuthenticated, (req,res) => {
-    const user = req.session.currentUser
-    Art.findById(req.params.id, (err, foundArt) =>{
-        if (err) {
-            console.log(err, ': ERROR AT POST ROUTE - ADD QUERY')
+router.post('/:id/add', isAuthenticated, async (req,res) => {
+    const art = await Art.findById(req.params.id)
+    User.findById(req.session.currentUser._id, (err,foundUser) =>{
+        if(foundUser.arts.id(req.params.id)) {
+            console.log('This art is already included in user collection')
         } else {
-            User.findById(user._id, (err,foundUser) =>{
-                if(foundUser.arts.id(req.params.id)) {
-                    console.log('This art is already included in user collection')
-                } else {
-                    foundUser.arts.push(foundArt)
-                    foundUser.save((err) => {
-                        if(err) {
-                            console.log(err)
-                        }
-                    })
-                }
-                res.redirect('/users/arts')
-            })
+            foundUser.arts.push(art)
+            foundUser.save()
+            res.redirect('/users/arts')
         }
     })
 })
