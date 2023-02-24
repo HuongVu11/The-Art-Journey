@@ -17,11 +17,11 @@ router.get('/seed', (req,res) => {
     })
 })
 
-// DROP DATA
-//Art.collection.drop()
-//User.collection.drop()
+//// DROP DATA
+// Art.collection.drop()
+// User.collection.drop()
 
-// Add vote property to Art collection
+//// Add vote property to Art collection
 // Art.updateMany({}, {$set: {votes:0}}, (err,updatedArts)=>{
 //     if(err) {
 //         console.log(err)

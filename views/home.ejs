@@ -3,27 +3,27 @@
     <%- include('./partials/header.ejs') %>
         <div id="carouselAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="bg-image carousel-item active" data-bs-interval="5000">
-                    <div class="overlay-img" style="background-image: url('../Image/Louvre-from haut.jpg');"></div>
+                <div class="bg-image carousel-item active" data-bs-interval="4000">
+                    <div class="overlay-img2" style="background-image: url('../Image/Louvre-from haut.jpg');"></div>
                     <div class="main-title">
                         <h1 class="position-absolute top-50 start-50 translate-middle text-center">WELCOME TO THE ART JOURNEY</h1>
                     </div>
                 </div>
-                <div class="carousel-item" data-bs-interval="3000">
-                    <div class="overlay-img" style="background-image: url('../Image/Louvre-inside-1.jpg')"></div>
-                    <!-- <img src="Image/Louvre-inside-1.jpg" class="carousel-img d-block w-100 img-fluid" alt="Inside of Louvre Museum"> -->
-                    <div class="carousel-caption d-none d-md-block mask" style="background-color: rgba(0, 0, 0, 0.6)">
+                <div class="carousel-item" data-bs-interval="4000">
+                    <div class="overlay-img2" style="background-image: url('../Image/Louvre1.jpg')"></div>
+                    <div class="carousel-caption d-bock p-3" style="background-color: rgba(0, 0, 0, 0.6)">
                         <div class="d-flex flex-column justify-content-center h-100">
-                            <h5 class="text-white mb-0">Exploring today</h5>
+                            <p class="quote text-white py-2 fs-3">"It took me four years to paint like Raphael, but a lifetime to paint like a child.”</p>
+                            <p class="fst-italic mb-2">- Pablo Picasso -</p>
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item" data-bs-interval="3000">
-                    <div class="overlay-img" style="background-image: url('../Image/Louvre1.jpg')"></div>
-                    <!-- <img src="Image/Louvre1.jpg" class="carousel-img d-block width-100 img-fluid" alt="Inside of Louvre Museum"> -->
-                    <div class="carousel-caption d-none d-md-block mask" style="background-color: rgba(0, 0, 0, 0.6)">
+                <div class="carousel-item" data-bs-interval="5000">
+                    <div class="overlay-img2" style="background-image: url('../Image/Louvre-inside-1.jpg')"></div>
+                    <div class="carousel-caption d-block mask p-3" style="background-color: rgba(0, 0, 0, 0.6)">
                         <div class="d-flex flex-column justify-content-center h-100">
-                            <h5>Keep your memories</h5>
+                            <p class="quote text-white py-2 fs-3">“I am enough of an artist to draw freely upon my imagination. Imagination is more important than knowledge.”</p>
+                            <p class="fst-italic mb-2">- Albert Einstein -</p>
                         </div>
                     </div>
                 </div>
@@ -36,6 +36,24 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+        </div>
+        <div class="container mb-5 p-5">
+            <div class="row my-5 gt-5">
+                <div class="col-md-6 d-flex align-items-center">
+                    <a class="link-dark" href="/arts"><h2 class="p-3" style="background-color: #e9ecef;">Explore today</h2></a>
+                </div>
+                <div class="col-md-6 text-center">
+                    <a class="link-dark" href="/arts"><img class="img-fluid" src="/Image/vatican.jpg"></a>
+                </div>
+            </div>
+            <div class="row my-5 gt-5">
+                <div class="col-md-6 d-flex align-items-center">
+                    <a class="link-dark" href="/users/signup"><h2 class="p-3" style="background-color: #e9ecef;">Sign up for adding your favorite art</h2></a>
+                </div>
+                <div class="col-md-6 text-center">
+                    <a class="link-dark" href="/users/signup"><img class="img-fluid" src="/Image/Met-outside.jpg"></a>
+                </div>
+            </div>
         </div>
     <%- include('./partials/footer.ejs') %>
 </html>
