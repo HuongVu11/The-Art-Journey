@@ -11,8 +11,8 @@
                 <div class="navbar-nav d-flex">
                     <% if (currentUser) { %>
                         <div class="dropdown">
-                            <a class="nav-link dropdown-toggle d-flex" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome <%= currentUser.username %></a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="nav-link dropdown-toggle hidden-arrow" role="button" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">Welcome <%= currentUser.username %></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="/users/arts">Your collections</a>
                                 <a class="dropdown-item" href="/users/new">Add new art</a>
                                 <form class="dropdown-item" action="/sessions?_method=DELETE" method="POST">

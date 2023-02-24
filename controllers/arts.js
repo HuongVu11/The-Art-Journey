@@ -21,6 +21,15 @@ router.get('/seed', (req,res) => {
 //Art.collection.drop()
 //User.collection.drop()
 
+// Add vote property to Art collection
+// Art.updateMany({}, {$set: {votes:0}}, (err,updatedArts)=>{
+//     if(err) {
+//         console.log(err)
+//     } else {
+//         console.log(updatedArts)
+//     }
+// })
+
 // INDEX ROUTE
 router.get('/', checkUrl, (req,res) => {
     Art.find((err,arts) => {
@@ -97,16 +106,32 @@ router.get('/:id', checkUrl, (req,res) => {
 //     })
 // })
 
-// // DELETE ROUTE
-// router.delete('/:id', (req,res) => {
-//     Art.findByIdAndDelete(req.params.id, (err,deletedArt) => {
-//         if(err){
-//             console.log(err, ': ERROR AT DELETE ROUTE')
-//         } else {
-//             res.redirect('/arts')
-//         }
-//     })
-// })
+// POST ROUTE - SEARCH
+router.post('/search', (req,res) => {
+    const search = req.body.search
+    Art.find({$or: [
+        {title: {$regex: search, $options:'i'}},
+        {artist: {$regex: search, $options:'i'}},
+        {artistBio: {$regex: search, $options:'i'}},
+        {dateCreated: {$regex: search, $options:'i'}},
+        {description: {$regex: search, $options:'i'}},
+        {category: {$regex: search, $options:'i'}},
+        {museum: {$regex: search, $options:'i'}},
+        {tags: {$regex: search, $options:'i'}}
+    ]}, (err,foundArts) => {
+        if(err) {
+            console.log(err, ': ERROR IN SEARCH AT POST ROUTE QUERY')
+        } else {
+            //res.send(foundArts)
+            res.render('search.ejs', {
+                tabTitle: 'Collection',
+                arts: foundArts,
+                search: search,
+                currentUser: req.session.currentUser
+            })
+        }
+    })
+})
 
 // POST ROUTE - ADD TO USER
 router.post('/:id/add', isAuthenticated, async (req,res) => {
@@ -121,5 +146,28 @@ router.post('/:id/add', isAuthenticated, async (req,res) => {
         }
     })
 })
+
+// POST ROUTE - VOTE
+router.post('/:id/vote', async (req,res) =>{
+    Art.findByIdAndUpdate(req.params.id, {$inc: {votes: 1}}, {new:true}, (err,updatedArt) => {
+        if(err){
+            console.log(err, ': ERROR AT POST ROUTE - VOTE')
+        } else {
+            console.log(updatedArt)
+            res.redirect(`/arts/${req.params.id}`)
+        }
+    })
+})
+
+// // DELETE ROUTE
+// router.delete('/:id', (req,res) => {
+//     Art.findByIdAndDelete(req.params.id, (err,deletedArt) => {
+//         if(err){
+//             console.log(err, ': ERROR AT DELETE ROUTE')
+//         } else {
+//             res.redirect('/arts')
+//         }
+//     })
+// })
 
 module.exports = router

@@ -1,9 +1,6 @@
 html {
     position: relative;
 }
-body {
-    min-height: 100vh;
-}
 footer {
     position: absolute;
     bottom: 0;
@@ -12,7 +9,7 @@ footer {
 }
 
 /* HOME */
-#welcome{
+#welcome {
     background-color:#d8e2dc;
     width: 100vw;
     height: 100vh
@@ -20,10 +17,48 @@ footer {
 .main-title {
     color: #606c38;
 }
-
 .btn-margin {
     margin-right: 20px;
 }
 .btn {
     width: 80px;
+}
+.carousel-item {
+    height: 25rem;
+    position: relative;
+    background-color: black;
+}
+.overlay-img {
+    background-image:url("../Image/Louvre-from haut.jpg");
+    background-position: center;
+    background-position: cover;
+    opacity: 0.5;
+}
+.overlay-img::before {
+    background-image:url("../Image/Louvre-from haut.jpg");
+    background-position: center;
+    height: 100%;
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.main-title {
+    color: white;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+/* SHOW PAGE */
+.bi-heart-fill {
+    background-color: #e9ecef;
+}
+.bi-heart-fill:hover{
+    color: #fb6f92 !important
 }

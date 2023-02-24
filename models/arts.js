@@ -8,7 +8,8 @@ const artSchema = new mongoose.Schema({
     description: String,
     category: String,
     museum: String,
-    tags: [String]   
+    tags: [String],
+    votes: {type:Number, default:0}  
 })
 const Art = mongoose.model('Art', artSchema)
 module.exports = Art
