@@ -14,17 +14,52 @@ users.get('/signup', (req, res) => {
 })
 
 users.post('/', (req, res) => {
-  //overwrite the user password with the hashed password, then pass that in to our database
-  req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-  User.create(req.body, (err, createdUser) => {
+  User.findOne({username:req.body.username}, (err,foundUser)=>{
     if (err) {
-      console.log(err, 'error at post route- create new user')
+      console.log(err)
+    } else if(foundUser) {
+      res.send('Sorry, please choose another username.')
     } else {
-      console.log('user is created', createdUser)
-      res.redirect('/sessions/new')
+    //overwrite the user password with the hashed password, then pass that in to our database
+      req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+      User.create(req.body, (err, createdUser) => {
+        if (err) {
+          console.log(err, 'error at post route- create new user')
+        } else {
+          console.log('user is created', createdUser)
+          res.redirect('/sessions/new')
+        }
+      })
     }
   })
 })
+
+// CHANGE PASSWORD
+users.get('/change', (req, res) => {
+  res.render('users/change-pswd.ejs',{
+    tabTitle: 'Settings',
+    currentUser: req.session.currentUser
+  })
+})
+
+users.post('/change', (req, res) => {
+  User.findOne({username:req.body.username}, (err,foundUser)=>{
+    if (err) {
+      console.log(err)
+    } else {
+      if (bcrypt.compareSync(req.body.oldPassword, foundUser.password)) {
+        console.log(foundUser)
+        req.body.newPassword = bcrypt.hashSync(req.body.newPassword, bcrypt.genSaltSync(10))
+        foundUser.password = req.body.newPassword 
+        foundUser.save()
+        console.log('password was changed', foundUser)
+        res.redirect('/sessions/new')
+      } else {
+        res.send('Sorry, please try again.')
+      }
+    }
+  })
+}) 
 
 // INDEX ROUTE - USER'S COLLECTIONS
 users.get('/arts', (req,res) => {

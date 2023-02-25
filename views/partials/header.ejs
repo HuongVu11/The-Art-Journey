@@ -13,8 +13,9 @@
                         <div class="dropdown">
                             <a class="nav-link dropdown-toggle hidden-arrow text-capitalize" role="button" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">Welcome <%= currentUser.username %></a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="/users/arts">Collection</a>
+                                <a class="dropdown-item" href="/users/arts">My Collection</a>
                                 <a class="dropdown-item" href="/users/new">Add new art</a>
+                                <a class="dropdown-item" href="/users/change">Change password</a>
                                 <form class="dropdown-item" action="/sessions?_method=DELETE" method="POST">
                                     <input type="submit" value="Log Out"/>
                                 </form>

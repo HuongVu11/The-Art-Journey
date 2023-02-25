@@ -135,10 +135,15 @@ router.post('/search', (req,res) => {
 
 // POST ROUTE - ADD TO USER
 router.post('/:id/add', isAuthenticated, async (req,res) => {
-    const art = await Art.findById(req.params.id)
+    const foundArt = await Art.findById(req.params.id)
     User.findById(req.session.currentUser._id, (err,foundUser) =>{
         if(foundUser.arts.id(req.params.id)) {
-            console.log('This art is already included in user collection')
+            res.render('show.ejs', {
+                message: 'The art is already included in your collection. Please add another art.',
+                tabTitle: foundArt.artist,
+                art: foundArt,
+                currentUser: req.session.currentUser
+            })
         } else {
             foundUser.arts.push(art)
             foundUser.save()

@@ -31,6 +31,10 @@
                             <input class="btn btn-warning btn-sm" type="submit" value="ADD" />
                         </form>
                     </div>
+                    <!-- 'The art is already added to your collection.' -->
+                    <% if(typeof message!== 'undefined') {%>
+                        <p class="text-danger-emphasis"><%=message%></p> 
+                    <%}%>
                 </div>
             </div>
         </div>
