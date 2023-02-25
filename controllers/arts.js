@@ -145,7 +145,7 @@ router.post('/:id/add', isAuthenticated, async (req,res) => {
                 currentUser: req.session.currentUser
             })
         } else {
-            foundUser.arts.push(art)
+            foundUser.arts.push(foundArt)
             foundUser.save()
             res.redirect('/users/arts')
         }

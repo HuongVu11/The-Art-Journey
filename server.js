@@ -26,9 +26,7 @@ const PORT = process.env.PORT || 3001;
 // How to connect to the database either via heroku or locally
 const MONGODB_URI = process.env.MONGODB_URI;
 
-// Connect to Mongo &
-// Fix Depreciation Warnings from Mongoose
-// May or may not need these depending on your Mongoose version
+// Connect to Mongo
 mongoose.connect(MONGODB_URI , { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
@@ -57,18 +55,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
-
-app.use((req,res,next)=>{
-  res.locals.url = req.originalUrl
-  console.log(res.locals.url)
-  next()
-})
-
-app.use((err, req, res, next) =>{
-  console.error(err.stack)
-  res.status(500).send('something broke!')
-})
-
 
 //use router
 app.use('/arts', artsController)
